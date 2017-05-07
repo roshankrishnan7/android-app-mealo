@@ -21,10 +21,15 @@
                 android:id="@+id/searchSearchView"
                 android:queryHint="Enter Monster Name"
                 android:paddingTop="20dp"></SearchView>-->
-        <EditText
+        <!--EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ipSearch"
+            android:hint="Search"/-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvJSONItem"
             android:hint="Search"/>
 
         <LinearLayout
