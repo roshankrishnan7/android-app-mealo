@@ -1,5 +1,6 @@
 package rkthi3.mealo;
 
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -22,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView cListView;
     private ArrayList<MenuItem> menuItemList;
     private EditText ip ;
-    private UserAdapter adapter;
-    private TextView count;
+    private ItemAdapter adapter;
+    //private TextView count;
     //private ArrayList<MenuItem> monsterList;
 
     //private DatabaseHelper m_cDBHelper;
@@ -32,11 +33,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Search ItemS");
+        setTitle("MENU");
 
-        cListView = (ListView) findViewById(R.id.listMonster);
+        cListView = (ListView) findViewById(R.id.listMenuItem);
         ip = (EditText)findViewById(R.id.ipSearch);
-        count = (TextView) findViewById(R.id.tvCount);
+
 
       /*  m_cDBHelper = new DatabaseHelper(getApplicationContext());
         // If there are no monsters in the db then add some defaults
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 // Monster details are displayed there and function to Update/Delete implement there
                 MenuItem selectedItem = (MenuItem) cListView.getItemAtPosition(position);
                 Intent viewIntent = new Intent(getApplicationContext(), ViewItemActivity.class);
-                viewIntent.putExtra("ViewItem",selectedItem);
+                viewIntent.putExtra("ViewItem", (Parcelable) selectedItem);
 
                 startActivity(viewIntent);
             }
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     public void initList(){
 //populate with data from database
         menuItemList = new ArrayList<>(/*get data from server*/);
-        adapter = new UserAdapter(this, menuItemList);
+        adapter = new ItemAdapter(this, menuItemList);
         cListView.setAdapter(adapter);
         //count.setText("Search Results: "+Integer.toString(monsterList.size()));
     }
@@ -108,10 +109,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        adapter = new UserAdapter(this,searchList);
+        adapter = new ItemAdapter(this,searchList);
         cListView.setAdapter(adapter);
         //adapter.notifyDataSetChanged();
-        count.setText("Search Results: "+Integer.toString(searchList.size()));
+     //   count.setText("Search Results: "+Integer.toString(searchList.size()));
     }
 
 }
