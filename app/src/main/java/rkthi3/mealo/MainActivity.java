@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 // Monster details are displayed there and function to Update/Delete implement there
                 MenuItem selectedItem = (MenuItem) cListView.getItemAtPosition(position);
                 Intent viewIntent = new Intent(getApplicationContext(), ViewItemActivity.class);
-                viewIntent.putExtra("ViewItem", (Parcelable) selectedItem);
+                viewIntent.putExtra("ViewItem", selectedItem);
 
                 startActivity(viewIntent);
             }

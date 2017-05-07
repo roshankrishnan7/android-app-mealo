@@ -4,10 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by roshan on 5/7/17.
+ * Created by roshan on 2/7/17.
  */
 
-public class MenuItem {
+public class MenuItem  implements Parcelable {
 
         /*public static final String TABLE_NAME = "monster_table";
         //public static final String COLUMN_ID = "_id";
