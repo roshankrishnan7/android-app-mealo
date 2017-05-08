@@ -36,10 +36,10 @@ public class ItemAdapter extends ArrayAdapter<MenuItem> {
         }
         // Lookup view for data population
         TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
-        TextView tvHome = (TextView) convertView.findViewById(R.id.tvPrice);
+        TextView tvPrc = (TextView) convertView.findViewById(R.id.tvPrice);
         // Populate the data into the template view using the monster object
         tvName.setText(menuItem.getName());
-        tvHome.setText(menuItem.getPrice());
+        tvPrc.setText("$"+String.valueOf(menuItem.getPrice()));
         // Return the completed view to render on screen
         return convertView;
     }

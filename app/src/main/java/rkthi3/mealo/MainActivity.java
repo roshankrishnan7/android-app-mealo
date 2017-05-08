@@ -40,6 +40,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import rkthi3.mealo.models.MenuItem;
 
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<MenuItem> menuItemList;
     private EditText ip ;
     private ItemAdapter adapter;
-    private ProgressDialog pd;
+
     TextView txtJson;
     //private TextView count;
     //private ArrayList<MenuItem> monsterList;
@@ -129,79 +130,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void initList() throws IOException {
 //populate with data from database
-/*
-        JSONObject request = new JSONObject();
-        try
-        {
-            request.put("Param1", "Value1");
-            request.put("Param2", "Value2");
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-
-        }
-        String url = "http://ec2-54-213-142-117.us-west-2.compute.amazonaws.com:3000/items";
-
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        mTxtDisplay.setText("Response: " + response.toString());
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
 
 
-                    }
-                });*/
-
-/*/------------------------------------------
-        HttpURLConnection urlConnection = null;
-
-        URL url = new URL("http://ec2-54-213-20-213.us-west-2.compute.amazonaws.com:80/items");
-
-        urlConnection = (HttpURLConnection) url.openConnection();
-
-        urlConnection.setRequestMethod("GET");
-        urlConnection.setReadTimeout(10000   );
-        urlConnection.setConnectTimeout(15000 );
-
-        urlConnection.setDoOutput(true);
-
-        urlConnection.connect();
-
-        BufferedReader br=new BufferedReader(new InputStreamReader(url.openStream()));
-
-        char[] buffer = new char[1024];
-
-        String jsonString = new String();
-
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            sb.append(line+"\n");
-        }
-        br.close();
-
-        jsonString = sb.toString();
-
-        System.out.println("JSON: " + jsonString);
-
-        //return new JSONObject(jsonString);
-//**/
-
-//--------------------
-
-
+        menuItemList = new ArrayList<>(/*get data from server*/);
         txtJson = (TextView) findViewById(R.id.tvJSONItem);
         new JsonTask().execute("http://ec2-54-213-20-213.us-west-2.compute.amazonaws.com:80/items");
-        menuItemList = new ArrayList<>(/*get data from server*/);
-        adapter = new ItemAdapter(this, menuItemList);
+
+/*        adapter = new ItemAdapter(this, menuItemList);
         cListView.setAdapter(adapter);
-        //count.setText("Search Results: "+Integer.toString(monsterList.size()));
+  */      //count.setText("Search Results: "+Integer.toString(monsterList.size()));
     }
 
     public void searchItems(String key){
@@ -222,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
     private class JsonTask extends AsyncTask<String, String, String> {
 
+        private ProgressDialog pd;
         protected void onPreExecute() {
             super.onPreExecute();
 
@@ -284,7 +222,58 @@ public class MainActivity extends AppCompatActivity {
             if (pd.isShowing()){
                 pd.dismiss();
             }
-            txtJson.setText(result);
+
+
+            try {
+                //JSONArray jArray = new JSONArray(result);
+                //for(int i=0; i < jArray.length(); i++) {
+
+                    JSONObject jObject = new JSONObject(result);
+
+
+
+
+                JSONArray jArray = jObject.getJSONArray("Item");
+
+                for (int i=0; i < jArray.length(); i++)
+                {
+                    try {
+                        JSONObject oneObject = jArray.getJSONObject(i);
+                        // Pulling items from the array
+
+                        Iterator iterator = oneObject.keys();
+                        String key = null;
+                        while (iterator.hasNext()) {
+                            key = (String) iterator.next();
+                            System.out.println(key);
+                            int price = oneObject.getJSONObject(key).getInt("price");
+                            System.out.println(price);
+                            menuItemList.add(new MenuItem(key,price));
+                        }
+
+
+
+                    } catch (JSONException e) {
+                        // Oops
+                    }
+
+
+                }
+
+                System.out.println(menuItemList.size());
+                adapter = new ItemAdapter(MainActivity.this, menuItemList);
+                cListView.setAdapter(adapter);
+
+                    String name = jObject.getString("Item");
+                    System.out.print("hi " +name);
+                    //String tab1_text = jObject.getString("tab1_text");
+                    //int price = jObject.getInt("active");
+              //  txtJson.setText(name);
+                //} // End Loop
+                this.pd.dismiss();
+            } catch (JSONException e) {
+                Log.e("JSONException", "Error: " + e.toString());
+            }
         }
     }
 
