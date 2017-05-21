@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "641061489857",
+    "project_id": "mealo-168212"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641061489857:android:fbd0c345a75f9b20",
+        "android_client_info": {
+          "package_name": "rkthi3.mealo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641061489857-rvsfpoppmt63lacoukjsbgpmv6pe09tn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rkthi3.mealo",
+            "certificate_hash": "5407bb42e8ab19969fe005fc98ac4079bbde6f15"
+          }
+        },
+        {
+          "client_id": "641061489857-l4j0vl6nr7s0utcpe31gj0va2s7gd6lq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGD2liz53s82IiW4QdhKdX7agPw7-GUaE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,9 +38,11 @@ public class ItemAdapter extends ArrayAdapter<MenuItem> {
         // Lookup view for data population
         TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
         TextView tvPrc = (TextView) convertView.findViewById(R.id.tvPrice);
+        ImageView itemImage = (ImageView) convertView.findViewById(R.id.item_image);
         // Populate the data into the template view using the monster object
         tvName.setText(menuItem.getName());
-        tvPrc.setText("$"+String.valueOf(menuItem.getPrice()));
+        tvPrc.setText("Price: $"+String.valueOf(menuItem.getPrice()));
+        //itemImage.image
         // Return the completed view to render on screen
         return convertView;
     }

@@ -4,6 +4,8 @@ import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Parcelable;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -51,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
     private EditText ip ;
     private ItemAdapter adapter;
 
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mToggle;
+
+
+
     TextView txtJson;
     //private TextView count;
     //private ArrayList<MenuItem> monsterList;
@@ -67,11 +74,9 @@ public class MainActivity extends AppCompatActivity {
         //ip = (EditText)findViewById(R.id.ipSearch);
 
 
-      /*  m_cDBHelper = new DatabaseHelper(getApplicationContext());
-        // If there are no monsters in the db then add some defaults
-        if(m_cDBHelper.GetAllMonster().size() == 0)
-            m_cDBHelper.CreateDefaultMonster();
-*/
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
 
         //load the list with items received from server
         try {
@@ -80,37 +85,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-//search
-        /*
-        ip.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                //used to implement search as user types into the EditText box
-                if(charSequence.toString().equals("")){
-                    try {
-                        initList();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                else {
-                    searchItems(charSequence.toString());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-*/
         cListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
@@ -124,8 +99,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mToggle =new  ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawerOpen, R.string.drawerClose);
+        mDrawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
 
 
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        if(mToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void initList() throws IOException {
@@ -133,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         menuItemList = new ArrayList<>(/*get data from server*/);
-        txtJson = (TextView) findViewById(R.id.tvJSONItem);
-        new JsonTask().execute("http://ec2-54-213-20-213.us-west-2.compute.amazonaws.com:80/items");
+        //txtJson = (TextView) findViewById(R.id.tvJSONItem);
+        new JsonTask().execute("http://ec2-54-245-158-23.us-west-2.compute.amazonaws.com:3000/items");
 
 /*        adapter = new ItemAdapter(this, menuItemList);
         cListView.setAdapter(adapter);
