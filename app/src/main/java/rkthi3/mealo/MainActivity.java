@@ -1,34 +1,35 @@
 package rkthi3.mealo;
 
-import android.app.DownloadManager;
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
-import android.os.Parcelable;
+import android.os.Build;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 import org.json.JSONObject;
@@ -36,24 +37,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import rkthi3.mealo.models.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView cListView;
     private ArrayList<MenuItem> menuItemList;
     private EditText ip ;
     private ItemAdapter adapter;
 
+    /*commented for base*/
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolBar;
@@ -72,8 +69,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle("MEAL-O");
 
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M ) {
+            checkPermission();
+        }
+
         cListView = (ListView) findViewById(R.id.listMenuItem);
         //ip = (EditText)findViewById(R.id.ipSearch);
+        /*commented for base*/
         mToolBar = (Toolbar) findViewById(R.id.nav_action_bar);
         setSupportActionBar(mToolBar);
 
@@ -103,14 +105,28 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(viewIntent);
             }
         });
-
+/*commented for base*/
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mToggle =new  ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawerOpen, R.string.drawerClose);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
 
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
 
+
+    }
+
+    public void checkPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                ){//Can add more as per requirement
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},
+                    123);
+        }
     }
 
     @Override
@@ -120,6 +136,36 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(android.view.MenuItem item){
+        int id = item.getItemId();
+
+        switch(id){
+            case R.id.nav_account:
+                Toast.makeText(this, "Account", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_aboutUs:
+                //Toast.makeText(this, "About Us", Toast.LENGTH_SHORT).show();
+                AboutUsFragment aboutUsFragment = new AboutUsFragment();
+                FragmentManager manager = getSupportFragmentManager();
+                manager.beginTransaction().replace(R.id.main_linear_layout, aboutUsFragment).commit();
+                break;
+            case R.id.nav_orders:
+                Toast.makeText(this, "Orders", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_settings:
+                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_logout:
+                Toast.makeText(this, "Log Out", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     public void initList() throws IOException {
