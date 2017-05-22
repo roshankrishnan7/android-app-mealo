@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.makeramen.roundedimageview.RoundedImageView;
+
 import java.util.ArrayList;
 
 import rkthi3.mealo.models.MenuItem;
@@ -38,10 +40,11 @@ public class ItemAdapter extends ArrayAdapter<MenuItem> {
         // Lookup view for data population
         TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
         TextView tvPrc = (TextView) convertView.findViewById(R.id.tvPrice);
-        ImageView itemImage = (ImageView) convertView.findViewById(R.id.item_image);
+        RoundedImageView itemImage = (RoundedImageView) convertView.findViewById(R.id.item_image);
         // Populate the data into the template view using the monster object
         tvName.setText(menuItem.getName());
         tvPrc.setText("Price: $"+String.valueOf(menuItem.getPrice()));
+
         //itemImage.image
         // Return the completed view to render on screen
         return convertView;

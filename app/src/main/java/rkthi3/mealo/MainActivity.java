@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("MENU");
+        setTitle("MEAL-O");
 
         cListView = (ListView) findViewById(R.id.listMenuItem);
         //ip = (EditText)findViewById(R.id.ipSearch);
