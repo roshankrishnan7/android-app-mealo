@@ -7,14 +7,16 @@
     android:orientation="vertical"
     android:id="@+id/drawerLayout"
     android:background="@color/iron"
-    android:padding="0dp">
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
         android:orientation="vertical"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp" >
+         >
+        <include layout="@layout/navigation_action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 
         <LinearLayout
@@ -48,6 +50,7 @@
         android:layout_height="match_parent"
         app:menu="@menu/navigation_menu"
         android:layout_gravity="start"
+        app:headerLayout="@layout/navigation_header"
         >
 
     </android.support.design.widget.NavigationView>

@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
+    private Toolbar mToolBar;
 
 
 
@@ -72,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
 
         cListView = (ListView) findViewById(R.id.listMenuItem);
         //ip = (EditText)findViewById(R.id.ipSearch);
+        mToolBar = (Toolbar) findViewById(R.id.nav_action_bar);
+        setSupportActionBar(mToolBar);
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -89,8 +93,9 @@ public class MainActivity extends AppCompatActivity {
         cListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                // on Clicking any item from the list view, the monster details are passed to ViewPage
-                // Monster details are displayed there and function to Update/Delete implement there
+                // on Clicking any item from the list view, the item details are passed to ViewPage
+                // Item details are displayed there and function to Update/Delete implement there
+                Log.d("clicked", "> here");
                 MenuItem selectedItem = (MenuItem) cListView.getItemAtPosition(position);
                 Intent viewIntent = new Intent(getApplicationContext(), ViewItemActivity.class);
                 viewIntent.putExtra("ViewItem", selectedItem);
