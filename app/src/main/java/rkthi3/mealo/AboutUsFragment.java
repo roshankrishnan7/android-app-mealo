@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.CampaignTrackingReceiver;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -22,10 +23,14 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import android.support.v4.app.FragmentActivity;
 import com.google.android.gms.maps.SupportMapFragment;
 import android.support.v4.app.Fragment;
+
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -35,10 +40,11 @@ import rkthi3.mealo.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AboutUsFragment extends android.support.v4.app.Fragment implements OnMapReadyCallback,
+public class AboutUsFragment extends android.support.v4.app.Fragment implements OnMapReadyCallback
+        /*,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener */{
 
     // Min and Max Update Intervals for our Location Service
     private static final long MAX_UPDATE_INTERVAL = 10000; // 10 Seconds
@@ -51,10 +57,63 @@ public class AboutUsFragment extends android.support.v4.app.Fragment implements 
     private GoogleMap m_cGoogleMap;
     private Location m_cCurrentLocation;
     private GoogleApiClient m_cAPIClient;
-
+    private View mView;
+    private MapView mMapView;
 
     private SupportMapFragment mapFrag;
-  /*
+
+    public AboutUsFragment() {
+        //Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+    mView = inflater.inflate(R.layout.fragment_about_us,container, false);
+        return mView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState){
+        super.onViewCreated(view, savedInstanceState);
+        mMapView =(MapView) mView.findViewById(R.id.map);
+
+        if(mMapView != null){
+            mMapView.onCreate(null);
+            mMapView.onResume();
+            mMapView.getMapAsync(this);
+
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        MapsInitializer.initialize(getContext());
+        m_cGoogleMap = googleMap;
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+        googleMap.addMarker(new MarkerOptions().position(LOCATION_MEALO)
+                .title("MEAL O")
+                .snippet("MEAL 0 - The best food in Melbourne"));
+        CameraPosition mealO = CameraPosition.builder().target(LOCATION_MEALO)
+                .zoom(16)
+                .bearing(0)
+                .tilt(45)
+                .build();
+
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(mealO));
+    }
+
+
+}
+
+  /* commented on 23-05-2017
     public AboutUsFragment() {
         FragmentManager fm = getChildFragmentManager();
         // Required empty public constructor
@@ -71,6 +130,14 @@ public class AboutUsFragment extends android.support.v4.app.Fragment implements 
         }
     }
 */
+
+
+
+
+
+
+
+  /*
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -189,3 +256,4 @@ public class AboutUsFragment extends android.support.v4.app.Fragment implements 
     }
 
 }
+*/

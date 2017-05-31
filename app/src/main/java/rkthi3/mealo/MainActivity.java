@@ -73,8 +73,10 @@ implements NavigationView.OnNavigationItemSelectedListener {
             checkPermission();
         }
 
-        cListView = (ListView) findViewById(R.id.listMenuItem);
-        //ip = (EditText)findViewById(R.id.ipSearch);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         /*commented for base*/
         mToolBar = (Toolbar) findViewById(R.id.nav_action_bar);
         setSupportActionBar(mToolBar);
@@ -82,6 +84,16 @@ implements NavigationView.OnNavigationItemSelectedListener {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        cListView = (ListView) findViewById(R.id.listMenuItem);
+        //ip = (EditText)findViewById(R.id.ipSearch);
+
+        /*commented for base*/
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mToggle =new  ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawerOpen, R.string.drawerClose);
+        mDrawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+
 
 
         //load the list with items received from server
@@ -105,14 +117,8 @@ implements NavigationView.OnNavigationItemSelectedListener {
                 startActivity(viewIntent);
             }
         });
-/*commented for base*/
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        mToggle =new  ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawerOpen, R.string.drawerClose);
-        mDrawerLayout.addDrawerListener(mToggle);
-        mToggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+
 
 
 
