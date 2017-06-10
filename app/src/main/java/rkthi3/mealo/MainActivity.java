@@ -50,6 +50,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
     private EditText ip ;
     private ItemAdapter adapter;
 
+
     /*commented for base*/
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
@@ -76,6 +77,11 @@ implements NavigationView.OnNavigationItemSelectedListener {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        TextView headerView = (TextView) findViewById(R.id.navHeader);
+
+
+       // TextView
 
         /*commented for base*/
         mToolBar = (Toolbar) findViewById(R.id.nav_action_bar);
@@ -118,9 +124,25 @@ implements NavigationView.OnNavigationItemSelectedListener {
             }
         });
 
+        View header_View =navigationView.getHeaderView(0);
+        header_View.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+               // Toast.makeText(getBaseContext(), "HOME",Toast.LENGTH_LONG).show();
+                Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
 
+                startActivity(mainIntent);
 
+            }
+        });
 
+      /*  headerView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Toast.makeText(getBaseContext(), "HOME",Toast.LENGTH_LONG).show();
+            }
+        });
+*/
 
     }
 
@@ -153,7 +175,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
             case R.id.nav_account:
                 Toast.makeText(this, "Account", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.nav_aboutUs:
+            case R.id.nav_contactUs:
                 //Toast.makeText(this, "About Us", Toast.LENGTH_SHORT).show();
                 AboutUsFragment aboutUsFragment = new AboutUsFragment();
                 FragmentManager manager = getSupportFragmentManager();
@@ -162,8 +184,8 @@ implements NavigationView.OnNavigationItemSelectedListener {
             case R.id.nav_orders:
                 Toast.makeText(this, "Orders", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.nav_settings:
-                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+            case R.id.nav_About:
+                Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_logout:
                 Toast.makeText(this, "Log Out", Toast.LENGTH_SHORT).show();
@@ -210,7 +232,8 @@ implements NavigationView.OnNavigationItemSelectedListener {
             super.onPreExecute();
 
             pd = new ProgressDialog(MainActivity.this);
-            pd.setMessage("Please wait");
+            pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            pd.setMessage("Delicious Food Loading..");
             pd.setCancelable(false);
             pd.show();
         }
@@ -311,7 +334,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
                 cListView.setAdapter(adapter);
 
                     String name = jObject.getString("Item");
-                    System.out.print("hi " +name);
+                    //System.out.print("hi " +name);
                     //String tab1_text = jObject.getString("tab1_text");
                     //int price = jObject.getInt("active");
               //  txtJson.setText(name);

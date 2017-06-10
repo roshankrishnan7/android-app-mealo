@@ -8,6 +8,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,8 +27,10 @@ import rkthi3.mealo.models.MenuItem;
  */
 
 public class ItemAdapter extends ArrayAdapter<MenuItem> {
+    boolean[] animationStates;
     public ItemAdapter(Context context, ArrayList<MenuItem> menuItem) {
         super(context, 0, menuItem);
+        animationStates = new boolean[menuItem.size()];
     }
 
     @Override
@@ -45,7 +49,14 @@ public class ItemAdapter extends ArrayAdapter<MenuItem> {
         tvName.setText(menuItem.getName());
         tvPrc.setText("Price: $"+String.valueOf(menuItem.getPrice()));
 
+        //Animate the loading of items in list
+        Animation animation = AnimationUtils.loadAnimation(getContext(),android.R.anim.fade_in);
+        animation.setStartOffset(position * 150);
+        convertView.startAnimation(animation);
+
         //itemImage.image
+
+        
         // Return the completed view to render on screen
         return convertView;
     }
