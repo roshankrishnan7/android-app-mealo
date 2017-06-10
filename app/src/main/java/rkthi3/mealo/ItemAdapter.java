@@ -56,7 +56,7 @@ public class ItemAdapter extends ArrayAdapter<MenuItem> {
 
         //itemImage.image
 
-        
+
         // Return the completed view to render on screen
         return convertView;
     }
