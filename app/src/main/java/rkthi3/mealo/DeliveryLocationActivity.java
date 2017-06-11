@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import java.lang.Object;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 
 import android.Manifest;
 import android.widget.Toast;
@@ -40,6 +42,8 @@ public class DeliveryLocationActivity extends AppCompatActivity
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
+   // private FusedLocationProviderClient mFusedLocationClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -110,6 +114,7 @@ public class DeliveryLocationActivity extends AppCompatActivity
                 == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
+       // LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
     }
 
     @Override
@@ -130,8 +135,8 @@ public class DeliveryLocationActivity extends AppCompatActivity
 
 
 
-//        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        LatLng latLng =  new LatLng(-37.8840, 145.0266);
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//        LatLng latLng =  new LatLng(-37.8840, 145.0266);
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Current Position");

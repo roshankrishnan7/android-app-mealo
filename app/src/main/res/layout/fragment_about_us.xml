@@ -2,7 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="rkthi3.mealo.AboutUsFragment">
+    tools:context="rkthi3.mealo.AboutUsFragment"
+    android:background="@color/cardview_light_background"
+    >
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -13,7 +15,8 @@
     <com.google.android.gms.maps.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="400dp"
+        android:paddingTop="50dp"/>
 
 
 </FrameLayout>
