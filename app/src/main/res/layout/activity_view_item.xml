@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/container">
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
@@ -29,25 +34,46 @@
         android:layout_weight=".2">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TextView android:id="@+id/lblName"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/lblName"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.96"
-                android:text="NAME"
-
+                android:layout_centerInParent="true"
                 android:layout_marginTop="10dp"
-                />
+                android:layout_weight="0.96"
 
-            <TextView android:id="@+id/lblPrice"
-                android:layout_width="0dp"
+                android:background="@color/jungle_green"
+                android:fontFamily="sans-serif"
+                android:text="NAME"
+                android:textAlignment="center"
+                android:textColor="@color/thunder_bird"
+
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/lblPrice"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
                 android:layout_weight="0.96"
                 android:text="PRICE"
+                android:textAlignment="center"
+                android:textSize="24sp" />
 
+            <TextView
+                android:id="@+id/lblDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                />
+                android:layout_weight="0.96"
+                android:text="DESCRIPTION"
+                android:textAlignment="viewStart"
+                android:textSize="24sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -60,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.96"
                 android:text="ADD TO CART"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/thunder_bird"
                 android:layout_marginTop="10dp"
                 android:textColor="@android:color/white"/>
 
@@ -70,3 +96,4 @@
 
     </LinearLayout>
 </LinearLayout>
+</FrameLayout>

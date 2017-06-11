@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -30,11 +31,13 @@ import com.google.android.gms.common.api.Status;
 import rkthi3.mealo.R;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.android.gms.vision.Frame;
+
 /**
  * Activity to demonstrate basic retrieval of the Google user's ID, email address, and basic
  * profile.
  */
-public class SignInActivity extends AppCompatActivity{
+public class SignInActivity extends BaseActivity{
     TextView txtStatus;
     LoginButton login_button;
     CallbackManager callbackManager;
@@ -42,7 +45,15 @@ public class SignInActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        setContentView(R.layout.activity_sign_in);
+        //setContentView(R.layout.content_sign_in);
+        FrameLayout container = (FrameLayout) findViewById(R.id.container);
+        getLayoutInflater().inflate(R.layout.content_sign_in, container);
+
+        //FrameLayout content_sign_in = (FrameLayout) findViewById(R.id.content_sign_in);
+
+       // container.setView(content_sign_in,100,100);
+
+        //super.onCreateDrawer();
         initializeControls();
 
         loginWithFb();

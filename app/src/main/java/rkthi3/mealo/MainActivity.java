@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,8 +43,7 @@ import java.util.Iterator;
 
 import rkthi3.mealo.models.MenuItem;
 
-public class MainActivity extends AppCompatActivity
-implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity {
 
     private ListView cListView;
     private ArrayList<MenuItem> menuItemList;
@@ -51,30 +51,28 @@ implements NavigationView.OnNavigationItemSelectedListener {
     private ItemAdapter adapter;
 
 
-    /*commented for base*/
+    /*commented for base
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolBar;
-
+*/
 
 
     TextView txtJson;
-    //private TextView count;
-    //private ArrayList<MenuItem> monsterList;
-
-    //private DatabaseHelper m_cDBHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+  //      setContentView(R.layout.activity_main);
+        FrameLayout container = (FrameLayout) findViewById(R.id.container);
+        getLayoutInflater().inflate(R.layout.content_main, container);
         setTitle("MEAL-O");
 
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M ) {
             checkPermission();
         }
 
-
+/*
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -84,22 +82,22 @@ implements NavigationView.OnNavigationItemSelectedListener {
        // TextView
 
         /*commented for base*/
-        mToolBar = (Toolbar) findViewById(R.id.nav_action_bar);
+  /*      mToolBar = (Toolbar) findViewById(R.id.nav_action_bar);
         setSupportActionBar(mToolBar);
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
+*/
         cListView = (ListView) findViewById(R.id.listMenuItem);
         //ip = (EditText)findViewById(R.id.ipSearch);
 
-        /*commented for base*/
+        /*commented for base
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mToggle =new  ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawerOpen, R.string.drawerClose);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
-
+*/
 
 
         //load the list with items received from server
@@ -124,7 +122,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
             }
         });
 
-        View header_View =navigationView.getHeaderView(0);
+    /*        View header_View =navigationView.getHeaderView(0);
         header_View.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -136,7 +134,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
             }
         });
 
-      /*  headerView.setOnClickListener(new View.OnClickListener(){
+    headerView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 Toast.makeText(getBaseContext(), "HOME",Toast.LENGTH_LONG).show();
@@ -156,7 +154,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
                     123);
         }
     }
-
+/*
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         if(mToggle.onOptionsItemSelected(item)){
@@ -198,19 +196,14 @@ implements NavigationView.OnNavigationItemSelectedListener {
 
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
-    }
+    }*/
 
     public void initList() throws IOException {
 //populate with data from database
 
-
         menuItemList = new ArrayList<>(/*get data from server*/);
-        //txtJson = (TextView) findViewById(R.id.tvJSONItem);
-        new JsonTask().execute("http://ec2-54-245-158-23.us-west-2.compute.amazonaws.com:3000/items");
 
-/*        adapter = new ItemAdapter(this, menuItemList);
-        cListView.setAdapter(adapter);
-  */      //count.setText("Search Results: "+Integer.toString(monsterList.size()));
+        new JsonTask().execute("http://ec2-54-245-158-23.us-west-2.compute.amazonaws.com:3000/items");
     }
 
     public void searchItems(String key){
@@ -229,6 +222,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
      //   count.setText("Search Results: "+Integer.toString(searchList.size()));
     }
 
+    //Async task to retrieve data from database
     private class JsonTask extends AsyncTask<String, String, String> {
 
         private ProgressDialog pd;
@@ -320,8 +314,9 @@ implements NavigationView.OnNavigationItemSelectedListener {
                             key = (String) iterator.next();
                             System.out.println(key);
                             int price = oneObject.getJSONObject(key).getInt("price");
+                            String description = oneObject.getJSONObject(key).getString("description");
                             System.out.println(price);
-                            menuItemList.add(new MenuItem(key,price));
+                            menuItemList.add(new MenuItem(key,price,description));
                         }
 
 
@@ -338,11 +333,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
                 cListView.setAdapter(adapter);
 
                     String name = jObject.getString("Item");
-                    //System.out.print("hi " +name);
-                    //String tab1_text = jObject.getString("tab1_text");
-                    //int price = jObject.getInt("active");
-              //  txtJson.setText(name);
-                //} // End Loop
+
                 this.pd.dismiss();
             } catch (JSONException e) {
                 Log.e("JSONException", "Error: " + e.toString());

@@ -32,10 +32,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.Manifest;
 import android.util.Log;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 import com.google.android.gms.location.LocationServices;
 
-public class DeliveryLocationActivity extends AppCompatActivity
+public class DeliveryLocationActivity extends BaseActivity
         implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -54,7 +55,10 @@ public class DeliveryLocationActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_delivery_location);
+        //setContentView(R.layout.activity_delivery_location);
+
+        FrameLayout container = (FrameLayout) findViewById(R.id.container);
+        getLayoutInflater().inflate(R.layout.activity_delivery_location, container);
 
         Intent intent = getIntent();
 

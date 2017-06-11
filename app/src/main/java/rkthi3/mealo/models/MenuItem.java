@@ -21,12 +21,13 @@ public class MenuItem  implements Parcelable {
 */
         private String name;
         private int price;
-
+        private String description;
 
         public MenuItem(){
             //_id= 0;
             name = "";
             price = 0;
+            description = "";
 
         }
 
@@ -34,12 +35,14 @@ public class MenuItem  implements Parcelable {
             //_id=in.readLong();
             name=in.readString();
             price=in.readInt();
+            description = in.readString();
         }
 
-        public MenuItem(String name, int price){
+        public MenuItem(String name, int price, String description){
             //this._id = id;
             this.name = name;
             this.price = price;
+            this.description = description;
         }
 
 
@@ -63,6 +66,9 @@ public class MenuItem  implements Parcelable {
             return price;
         }
 
+        public String getDescription(){return description;}
+
+        public void setDescription(String description){this.description = description;}
 
         public String getMenuItemDetails() {
             return ("Item name : " + name + "\nItem price : " + price );
@@ -78,6 +84,7 @@ public class MenuItem  implements Parcelable {
 //            parcel.writeLong(_id);
             parcel.writeString(name);
             parcel.writeInt(price);
+            parcel.writeString(description);
 
         }
 

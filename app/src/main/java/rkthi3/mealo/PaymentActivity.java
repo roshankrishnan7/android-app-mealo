@@ -8,12 +8,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import rkthi3.mealo.models.Cart;
 import rkthi3.mealo.models.MenuItem;
 
+import com.facebook.Profile;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.view.CardInputWidget;
@@ -37,12 +39,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 
 import static java.net.Proxy.Type.HTTP;
 
 
-public class PaymentActivity extends AppCompatActivity {
+public class PaymentActivity extends BaseActivity {
 
     private Cart cart;
     private TextView tvTotal;
@@ -53,7 +57,9 @@ public class PaymentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_payment);
+       // setContentView(R.layout.activity_payment);
+        FrameLayout container = (FrameLayout) findViewById(R.id.container);
+        getLayoutInflater().inflate(R.layout.activity_payment, container);
 
 
         Intent intent = getIntent();
@@ -123,9 +129,8 @@ public class PaymentActivity extends AppCompatActivity {
 
     }
 
+    // Class to perform Async Stripe payment interaction with server
     private class StripeCharge extends AsyncTask<String, Void, String> {
-
-
 
         String token;
 
@@ -161,12 +166,7 @@ public class PaymentActivity extends AppCompatActivity {
                 conn.setRequestProperty("Content-Type","application/json");
                 conn.connect();
 
-             /*   List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new NameValuePair("method", "charge"));
-                params.add(new NameValuePair("description", "TEST charge"));
-                params.add(new NameValuePair("source", token));
-                params.add(new NameValuePair("amount", "100"));
-*/
+    //Create JSON object to send to server
                 JSONObject stripeData = new JSONObject();
                 try {
                     stripeData.put("method", "charge");
@@ -233,6 +233,9 @@ public class PaymentActivity extends AppCompatActivity {
           return buffer.toString();
         }
 
+
+//On successful execution, the order need to saved to
+// database and delivery address need to be picked up
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
@@ -244,6 +247,20 @@ public class PaymentActivity extends AppCompatActivity {
             JSONObject respJSON = new JSONObject(result);
                 String status = respJSON.getString("status");
                 if(status.equals("success")){
+                    Profile profile = Profile.getCurrentProfile();
+                    //System.out.println(profile.getFirstName());
+                    //txtStatus.setText(profile.getName());
+                    JSONObject order = new JSONObject();
+                    try{
+                        order.put("User",profile.getName());
+                        String date = new SimpleDateFormat("dd-MM-YYYY").format(new Date());
+                        order.put("Date",date);
+                        //order.put("Item",new JSONObject());
+                    }
+                    catch (JSONException e){
+                        System.out.println("Error saving in DB");
+                    }
+
                     Toast.makeText(getBaseContext(),
                             "Payment Successful",
                             Toast.LENGTH_SHORT).show();
@@ -255,9 +272,7 @@ public class PaymentActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(),
                             "Payment Failed",
                             Toast.LENGTH_SHORT).show();
-                    //Intent mainIntent = new Intent(getApplicationContext(), DeliveryLocationActivity.class);
 
-                    //startActivity(mainIntent);
                 }
 
             } catch (JSONException e) {

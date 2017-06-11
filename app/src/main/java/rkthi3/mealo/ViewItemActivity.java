@@ -11,8 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.facebook.Profile;
 
 import org.w3c.dom.Text;
 
@@ -32,7 +35,7 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class ViewItemActivity extends AppCompatActivity {
+public class ViewItemActivity extends BaseActivity {
 
     private MenuItem menuItem;
     private TextView mName;
@@ -42,16 +45,20 @@ public class ViewItemActivity extends AppCompatActivity {
     private Button cAddButton;
     private Cart cart;
     private int qty;
-
+    private TextView mDesc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_item);
+        //setContentView(R.layout.activity_view_item);
         setTitle("Item");
+        FrameLayout container = (FrameLayout) findViewById(R.id.container);
+        getLayoutInflater().inflate(R.layout.activity_view_item, container);
+
         cart = new Cart();
 
         mName = (TextView) findViewById(R.id.lblName);
         mPrice = (TextView) findViewById(R.id.lblPrice);
+        mDesc = (TextView) findViewById(R.id.lblDesc);
 
         Intent intent = getIntent();
         menuItem = intent.getParcelableExtra("ViewItem");
@@ -61,9 +68,10 @@ public class ViewItemActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
-
+        //Profile p =
         mName.setText(menuItem.getName());
-        mPrice.setText(Integer.toString( menuItem.getPrice()));
+        mPrice.setText("PRICE: $"+Integer.toString( menuItem.getPrice()));
+        mDesc.setText(menuItem.getDescription());
         cAddButton = (Button) findViewById(R.id.btnAdd);
 
     //cAddButton.setVisibility(View.GONE);
