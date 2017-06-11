@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">MealO</string>
+    <string name="facebook_app_id">689331684608708</string>
+    <string name="fb_login_protocol_scheme">fb689331684608708</string>
     <string name="title_text">Google Sign-In\nQuickstart</string>
 
     <!-- Sign-in status messages -->

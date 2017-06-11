@@ -173,7 +173,11 @@ implements NavigationView.OnNavigationItemSelectedListener {
 
         switch(id){
             case R.id.nav_account:
-                Toast.makeText(this, "Account", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Account", Toast.LENGTH_SHORT).show();
+                Intent loginIntent = new Intent(getApplicationContext(), SignInActivity.class);
+
+                startActivity(loginIntent);
+
                 break;
             case R.id.nav_contactUs:
                 //Toast.makeText(this, "About Us", Toast.LENGTH_SHORT).show();
